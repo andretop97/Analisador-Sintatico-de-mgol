@@ -3,14 +3,19 @@ from analisadorLexico.analisador_lexico import LexicalAnalyzer
 
 class syntacticAnalyzer:
     def __init__(self):
-        self.symbols = LexicalAnalyzer()
+        self.symbols = self.getLexicalSymbols()
+
+    def getLexicalSymbols(self):
+        lexicalAnalyzer = LexicalAnalyzer()
+        lexicalAnalyzer.analyzer("programa_fonte.txt")
+        return lexicalAnalyzer.symbols
+
 
     def analyzer(self):
-        a = "symbol"
+        a = 0
         s = "state"
-        print("du hast")
         while True:
-            if self.action[s, a] == "shift t":
+            if self.action[s, self.symbols[a]] == "shift t":
                 print("empilha a do indice t")
 
             ##proximo simbolo da entrada

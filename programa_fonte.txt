@@ -1,5 +1,5 @@
 inicio
-    vari@nicio
+    varinicio
         A lit;
         B inteiro;
         D inteiro;
@@ -28,7 +28,7 @@ inicio
     escreva D;
     escreva "\n";
     escreva C;
-    escreva "\n;
+    escreva "\n";
     escreva A;
     aaaaaa;
 fim
