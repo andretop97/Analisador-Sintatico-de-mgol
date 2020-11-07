@@ -1,5 +1,4 @@
-from analisadorLexico.analisador_lexico import LexicalAnalyzer
-from analisadorLexico.funcao_de_transicao import Dicionario_de_erros
+from analisadorLexico.analisador_lexico import *
 
 # if __name__ == "__main__":
 #     lexicalAnalyzer = LexicalAnalyzer()
