@@ -14,6 +14,11 @@ print("\nErros")
 for erro in lexicalAnalyzer.errors:
     print("Erro: " , erro[0] , " na linha: " , erro[1] , " e coluna: " , erro[2], Dicionario_de_erros[erro[3]])
 
+print("\nTudo")
+for symbol in lexicalAnalyzer.symbols:
+    #print(symbol)
+    print("lexema: " , symbol["lexema"] , " token: " , symbol["token"] , " tipo: " , symbol["tipo"])
+
 # from analisadorSintatico.analisador_sintatico import syntacticAnalyzer
 # lexicalAnalyzer = syntacticAnalyzer()
 # lexicalAnalyzer.teste.analyzer("programa_fonte.txt")
