@@ -89,6 +89,7 @@ class LexicalAnalyzer:
                         state = initialState
                         lexema = ""
                     elif specialState[0] != "Se" and currentState[1] != "1":#Permite que seja salvo um lexema logo após outro sem um espaço em branco
+                        #print("\n\n" + lexema + "\n\n")
                         if state[1] == "id":
                             self.symbleTable.addSymbol(lexema, state[1], "")
                         self.lexicon(lexema, state[1])
@@ -101,9 +102,12 @@ class LexicalAnalyzer:
                 elif state[0] == "s8" or state[0] == "s12": #O estado descrito aqui adiciona um erro caso a linha termine sem fechar aspas
                     if state[0] == "s8" and character == '"':
                         lexema =  lexema + character
+                        self.lexicon(lexema, currentState[1])
                         state = initialState
                         lexema = ""
                     elif state[0] == "s12" and character == "}":
+                        lexema =  lexema + character
+                        self.lexicon(lexema, currentState[1])
                         state = initialState
                         lexema = ""
                     elif character == "\n" or character == EOFError:
