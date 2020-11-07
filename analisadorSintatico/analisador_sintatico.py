@@ -1,4 +1,6 @@
 from analisadorLexico.analisador_lexico import LexicalAnalyzer
+from analisadorSintatico.goto import goto
+from analisadorSintatico.action import action
 
 
 class syntacticAnalyzer:
@@ -12,31 +14,23 @@ class syntacticAnalyzer:
 
 
     def analyzer(self):
-        a = 0
-        s = "state"
+        token = 0
+        stack = [0]
         while True:
-            if self.action[s, self.symbols[a]] == "shift t":
-                print("empilha a do indice t")
+            state = stack[-1]
+            action = action(state, self.symbols[token])
+            if action[0] == "s":
+                stack.append(action[1])
+                token += 1
 
-            ##proximo simbolo da entrada
-            elif self.action[s, a] == "reduce":
-
-                print("empilha simbolos B da pilha")
-                print("faz o estado t ser o topo da pilha")
+            elif action[0] == "r":
+                for i in range("tamanho da derivação da gramatica"):
+                    stack.pop()
+                state = stack[-1]
+                goto(state, self.symbols[token])
                 print("empilha GOTO[ t , A ]")
                 print("imprime A -> B")
-            elif self.action[s, a] == "accept":
+            elif action[0] == "ACC":
                 break
             else:
                 print("chama uma rotina de redução de erro")
-
-    def action(self, state, Symbol):
-        return ['shift', 'reduce', 'accept', 'error']
-
-    def goto(self, t, A):
-        print("batata")
-
-
-if __name__ == "__main__":
-    batata = syntacticAnalyzer()
-    print(batata.batata)
