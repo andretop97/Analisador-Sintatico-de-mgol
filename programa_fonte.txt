@@ -28,7 +28,7 @@ inicio
     escreva D;
     escreva "\n";
     escreva C;
-    escreva "\n;
+    escreva "\n";
     escreva A;
     aaaaaa;
 fim
