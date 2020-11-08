@@ -17,7 +17,7 @@ class syntacticAnalyzer:
         stack = [0]
         while True:
             state = stack[-1]
-
+            print(stack)
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
                 stack.append(actionResult[1])
@@ -36,5 +36,18 @@ class syntacticAnalyzer:
                 print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
-                print("chama uma rotina de redução de erro")
+                print("Erro sintatico na linha x")
+
+
+                while stack[-1] not in [9]:
+                    print(stack)
+                    stack.pop()
+                token += 1
+
+                # #if tabela vazia e proximo token erro , descarta
+                #
+                # #if token == sinc , desenpilha nao terminal do topo
+                #
+                # #if token
+                # if()
                 break
