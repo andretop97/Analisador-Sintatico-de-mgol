@@ -134,4 +134,5 @@ class LexicalAnalyzer:
                     self.lexicon(lexema, state[1])
                 else:
                     self.errors.append([erro,lineNumber, columnNumber, currentState[1]])
-                    self.lexicon(erro, state[1])            
+                    self.lexicon(erro, state[1])
+        self.lexicon("","$")

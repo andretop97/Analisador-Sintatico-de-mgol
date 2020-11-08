@@ -14,7 +14,7 @@ def goto(state, notTerminal):
             return 7
         elif notTerminal == "COND":
             return 8
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return 13
     elif state == 4:
         if notTerminal == "LV":
@@ -30,7 +30,7 @@ def goto(state, notTerminal):
             return 7
         elif notTerminal == "COND":
             return 8
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return 13
     elif state == 7:
         if notTerminal == "A":
@@ -41,7 +41,7 @@ def goto(state, notTerminal):
             return 7
         elif notTerminal == "COND":
             return 8
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return 13
     elif state == 8:
         if notTerminal == "A":
@@ -52,7 +52,7 @@ def goto(state, notTerminal):
             return 7
         elif notTerminal == "COND":
             return 8
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return 13
     elif state == 11:
         if notTerminal == "ARG":
@@ -64,7 +64,7 @@ def goto(state, notTerminal):
             return 32
         elif notTerminal == "COND":
             return 33
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return 13
         elif notTerminal == "CORPO":
             return 30
@@ -88,7 +88,7 @@ def goto(state, notTerminal):
             return 32
         elif notTerminal == "COND":
             return 33
-        elif notTerminal == "CABECALHO":
+        elif notTerminal == "CABEÇALHO":
             return  13
         elif notTerminal == "CORPO":
             return 46
@@ -99,8 +99,8 @@ def goto(state, notTerminal):
             return 32
         elif notTerminal == "COND":
             return 33
-        elif notTerminal == "CABECALHO":
-            return  13
+        elif notTerminal == "CABEÇALHO":
+            return 13
         elif notTerminal == "CORPO":
             return 47
     elif state == 33:
@@ -110,11 +110,11 @@ def goto(state, notTerminal):
             return 32
         elif notTerminal == "COND":
             return 33
-        elif notTerminal == "CABECALHO":
-            return  13
+        elif notTerminal == "CABEÇALHO":
+            return 13
         elif notTerminal == "CORPO":
             return 48
-    elif state == 33:
+    elif state == 35:
         if notTerminal == "OPRD":
             return 50
         elif notTerminal == "EXP_R":

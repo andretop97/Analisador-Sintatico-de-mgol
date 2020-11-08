@@ -20,8 +20,9 @@ from analisadorLexico.analisador_lexico import *
 
 from analisadorSintatico.analisador_sintatico import syntacticAnalyzer
 lexicalAnalyzer = syntacticAnalyzer()
-for simbol in lexicalAnalyzer.symbols:
-    print(simbol)
+# for i in lexicalAnalyzer:
+#     print(i)
+lexicalAnalyzer.analyzer()
 
 # print("\nTabela de símbolos")
 # for item in lexicalAnalyzer.teste.symbleTable.symbol:
