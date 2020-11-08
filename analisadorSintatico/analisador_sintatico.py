@@ -31,10 +31,10 @@ class syntacticAnalyzer:
                     stack.pop()
                 state = stack[-1]
                 stack.append(goto(state, rules[indice][0]))
-                print("regra  : ",rules[indice], " estado  : ",state)
+                print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
 
             elif actionResult[0] == "ACC":
-                print(rules[0])
+                print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
                 print("chama uma rotina de redução de erro")
