@@ -1,4 +1,5 @@
 from .funcao_de_transicao import *
+from util.error_dictionary import *
 
 class SymbolTable():
     def __init__(self):
