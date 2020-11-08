@@ -11,7 +11,7 @@ rules = [
 ["P", ["inicio", "V", "A"]],
 ["V",["varinicio", "LV"]],
 ["LV", ["D", "LV"]],
-["LV", ["varinicio", ";"]],
+["LV", ["varfim", ";"]],
 ["D", ["id", "TIPO", ";"]],
 ["TIPO", ["int"]],
 ["TIPO", ["real"]],

@@ -42,7 +42,7 @@ def action(state, token):
             return ["s", 18]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 9]
 
     if state == 5:
         if token == "$":

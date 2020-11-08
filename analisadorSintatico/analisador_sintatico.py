@@ -20,7 +20,6 @@ class syntacticAnalyzer:
             print(stack)
             print(self.symbols[token]["token"])
             state = stack[-1]
-
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
                 stack.append(actionResult[1])
