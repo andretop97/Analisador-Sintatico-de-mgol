@@ -4,7 +4,7 @@ def action(state, token):
             return ["s", 2]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 5]
 
     if state == 1:
         if token == "$":
@@ -18,7 +18,7 @@ def action(state, token):
             return ["s", 4]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 6]
 
     if state == 3:
         if token == "id":

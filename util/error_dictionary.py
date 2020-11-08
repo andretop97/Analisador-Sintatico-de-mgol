@@ -4,7 +4,7 @@ Dicionario_de_erros = {
 "3":"Erro de léxico: Nao fechou aspas",
 "4":"Erro de léxico: Não fechou a chave",
 "5":"Erro de sintaxe: Faltou início",
-"6":"Erro de sintaxe: ",
+"6":"Erro de sintaxe: Faltou varinicio",
 "7":"Erro de sintaxe: ",
 "8":"Erro de sintaxe: ",
 "9":"Erro de sintaxe: ",
