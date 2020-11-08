@@ -1,7 +1,6 @@
-from analisadorLexico.analisador_lexico import LexicalAnalyzer
-from analisadorSintatico.goto import goto
-from analisadorSintatico.action import action
-from util.grammar import rules
+from analisadorLexico.analisador_lexico import *
+from util.goto import goto
+from util.action import action
 
 
 class syntacticAnalyzer:
