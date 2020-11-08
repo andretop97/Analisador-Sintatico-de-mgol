@@ -4,6 +4,7 @@ from util.action import action
 
 
 class syntacticAnalyzer:
+
     def __init__(self):
         self.symbols = self.getLexicalSymbols()
 
@@ -16,6 +17,8 @@ class syntacticAnalyzer:
         token = 0
         stack = [0]
         while True:
+            print(stack)
+            print(self.symbols[token]["token"])
             state = stack[-1]
 
             actionResult = action(state, self.symbols[token]["token"])
@@ -29,6 +32,7 @@ class syntacticAnalyzer:
                 for i in range(len(rules[indice][1])):
                     stack.pop()
                 state = stack[-1]
+                estadoSeguro = goto(state, rules[indice][0])
                 stack.append(goto(state, rules[indice][0]))
                 print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
 
@@ -36,5 +40,42 @@ class syntacticAnalyzer:
                 print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
-                print("chama uma rotina de redução de erro")
-                break
+                # while(stack[-1]) != estadoSeguro:
+                #     stack.pop()
+
+                # print("\n\nERRO: ", self.symbols[token]["lexema"], self.symbols[token]["token"]  , "\n\n")
+                # token+=1
+
+                if actionResult[0] == "Err": #tratamento geral para identificar os erros
+
+                    if str(actionResult[1]) == "5": #Faltou início
+                        self.symbols.insert(token,{"lexema": "inicio" , "token": "inicio" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "6": #Faltou varinício
+                        self.symbols.insert(token,{"lexema": "varinicio" , "token": "varinicio" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "9": #Token inesperado
+                        self.symbols.pop(token)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+
+                    elif str(actionResult[1]) == "7": #Falta ponto e vírgula
+                        self.symbols.insert(token,{"lexema": ";" , "token": "PT_V" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "8": #Ponto e vírgula inesperado
+                        self.symbols.pop(token)
+                        #token -= 1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+
+                    else:
+                        print("\n\nESSE É O ELSE ", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+                        stack.pop()
+                        token+=1
+                else:
+                    print(state, self.symbols[token]["token"])
+                    return
+                    

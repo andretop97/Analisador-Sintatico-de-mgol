@@ -179,7 +179,7 @@ def action(state, token):
             return ["s", 37]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 18:
         if token == "inteiro":
@@ -235,7 +235,7 @@ def action(state, token):
             return ["s", 24]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 24:
         if token == "id":
@@ -259,28 +259,28 @@ def action(state, token):
             return ["s", 20]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 26:
         if token == "PT_V":
             return ["r", 13]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 27:
         if token == "PT_V":
             return ["r", 14]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
     
     if state == 28:
         if token == "PT_V":
             return ["r", 15]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 29:
         if token == "id":
@@ -414,35 +414,35 @@ def action(state, token):
             return ["s", 51]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 39:
         if token == "PT_V":
             return ["r", 7]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 40:
         if token == "PT_V":
             return ["r", 8]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 41:
         if token == "PT_V":
             return ["r", 9]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 42:
         if token == "PT_V":
             return ["s", 52]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 43:
         if token == "PT_V":
@@ -477,7 +477,7 @@ def action(state, token):
             return ["r", 21]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 46:
         if token == "id":
@@ -550,6 +550,8 @@ def action(state, token):
             return ["r", 6]
         elif token == "id":
             return ["r", 6]
+        elif token == "PT_V":
+            return ["Err", 8]
 
         else:
             return ["Erro", 0]
@@ -601,7 +603,7 @@ def action(state, token):
             return ["r", 18]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 7]
 
     if state == 57:
         if token == "id":

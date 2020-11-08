@@ -1,15 +1,10 @@
-inicio
+inicio;
     varinicio
         A lit;
         B inteiro;
         D inteiro;
-        C real;
     varfim;
 
-    escreva "Digite B";
-    leia B;
-    escreva "Digite A:";
-    leia A;
     se(B>2)
     entao
         se(B<=4)
