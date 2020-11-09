@@ -15,7 +15,7 @@ Dicionario_de_erros = {
 "14":"Erro de sintaxe: Faltou operador relacional",
 "15":"Erro de sintaxe: Faltou declaração de tipo",
 "16":"Erro de sintaxe: Operação Matematica nao finalizada",
-"17":"Erro de sintaxe: Estado 44",
+"17":"Erro de sintaxe: Faltou simbolo de atribuição",
 "18":"Erro de sintaxe: Faltou varfim",
 "19":"Erro de sintaxe: Esperado um identificador",
 "20":"Erro de sintaxe: Esperada informação para escrever",
