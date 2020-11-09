@@ -74,34 +74,85 @@ class syntacticAnalyzer:
                         self.symbols.insert(token,{"lexema": "<-" , "token": "RCB" , "tipo": "" })
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-                    elif str(actionResult[1]) == "12": #Comparação invalida
+                    elif str(actionResult[1]) == "12":
                         stack.append(45)
                         token+=1
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-                    elif str(actionResult[1]) == "13": #Comparação invalida
+                    elif str(actionResult[1]) == "13": 
                         self.symbols.insert(token,{"lexema": "entao" , "token": "entao" , "tipo": "" })
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-                    elif str(actionResult[1]) == "14": #Comparação invalida
+                    elif str(actionResult[1]) == "14": 
                         stack.append(55)
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-                    elif str(actionResult[1]) == "15": #Comparação invalida
+                    elif str(actionResult[1]) == "15": 
                         stack.append(40)
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-
+                    elif str(actionResult[1]) == "16":
+                        stack.append(45)
+                        token+=1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
                         
 
                     elif str(actionResult[1]) == "17": #Comparação invalida
                         stack.append(55)
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
+                    elif str(actionResult[1]) == "18": #Faltou varfim
+                        self.symbols.insert(token,{"lexema": "varfim" , "token": "varfim" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "19": #
+                        stack.append(23)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "20": #
+                        stack.pop()
+                        token+=1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "21": #
+                        stack.pop()
+                        self.symbols.pop(token)
+                        if self.symbols[token]["lexema"] == ";":
+                            self.symbols.pop(token)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+
+                    elif str(actionResult[1]) == "22": #Faltou abrir parentes
+                        self.symbols.insert(token,{"lexema": "(" , "token": "AB_P" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+
+                    elif str(actionResult[1]) == "23":
+                        i=1
+                        while (i<5):
+                            if self.symbols[token+i]["lexema"] == "varfim":
+                                print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+                                stack.pop()
+                                stack.pop()
+                                stack.pop()
+                                token += i #O ideal é pular até chegar no próximo id a ser declarado como variável. Tente ver qtos faltam até o ; e pule
+                                if self.symbols[token+i]["lexema"] == "lit" or self.symbols[token+i]["lexema"] == "real" or self.symbols[token+i]["lexema"] == "inteiro":
+                                    self.symbols.pop(token+i)
+                                if self.symbols[token+i]["lexema"] == ";":
+                                    self.symbols.pop(token+i)
+                            i+=1
+                        if i>5:
+                            print("\n\n", Dicionario_de_erros["18"], "\n\n")
+
+                    
+
+                    
+
+                    
 
 
                     else:
-                        print("\n\nESSE É O ELSE ", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+                        print("\n\nERRO NÃO TRATADO ", Dicionario_de_erros[str(actionResult[1])], "\n\n")
                         stack.pop()
                         token+=1
                 else:
