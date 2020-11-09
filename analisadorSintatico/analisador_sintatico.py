@@ -17,14 +17,13 @@ class syntacticAnalyzer:
         token = 0
         stack = [0]
         while True:
-            print(stack)
-            print(self.symbols[token]["token"])
+            # print(stack)
+            # print(self.symbols[token]["token"])
             state = stack[-1]
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
                 stack.append(actionResult[1])
                 token += 1
-
 
             elif actionResult[0] == "r":
                 indice = actionResult[1] - 1
@@ -32,6 +31,7 @@ class syntacticAnalyzer:
                     stack.pop()
                 state = stack[-1]
                 estadoSeguro = goto(state, rules[indice][0])
+                print(state, rules[indice][0])
                 stack.append(goto(state, rules[indice][0]))
                 print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
 
