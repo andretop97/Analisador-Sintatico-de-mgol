@@ -17,8 +17,8 @@ class syntacticAnalyzer:
         token = 0
         stack = [0]
         while True:
-            # print(stack)
-            # print(self.symbols[token]["token"])
+            print(stack)
+            print(self.symbols[token]["token"])
             state = stack[-1]
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
@@ -30,8 +30,6 @@ class syntacticAnalyzer:
                 for i in range(len(rules[indice][1])):
                     stack.pop()
                 state = stack[-1]
-                estadoSeguro = goto(state, rules[indice][0])
-                print(state, rules[indice][0])
                 stack.append(goto(state, rules[indice][0]))
                 print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
 
@@ -55,19 +53,51 @@ class syntacticAnalyzer:
                         self.symbols.insert(token,{"lexema": "varinicio" , "token": "varinicio" , "tipo": "" })
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
-                    elif str(actionResult[1]) == "9": #Token inesperado
-                        self.symbols.pop(token)
-                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
-
-
                     elif str(actionResult[1]) == "7": #Falta ponto e vírgula
                         self.symbols.insert(token,{"lexema": ";" , "token": "PT_V" , "tipo": "" })
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
 
                     elif str(actionResult[1]) == "8": #Ponto e vírgula inesperado
                         self.symbols.pop(token)
-                        #token -= 1
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "9": #Token inesperado
+                        self.symbols.pop(token)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "10": #Faltou fechar parentes
+                        self.symbols.insert(token,{"lexema": ")" , "token": "FC_P" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "11": #Faltou operador de atribuição
+                        token-=1
+                        self.symbols.insert(token,{"lexema": "<-" , "token": "RCB" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "12": #Comparação invalida
+                        stack.append(45)
+                        token+=1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "13": #Comparação invalida
+                        self.symbols.insert(token,{"lexema": "entao" , "token": "entao" , "tipo": "" })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "14": #Comparação invalida
+                        stack.append(55)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+                    elif str(actionResult[1]) == "15": #Comparação invalida
+                        stack.append(40)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
+
+                        
+
+                    elif str(actionResult[1]) == "17": #Comparação invalida
+                        stack.append(55)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
+
 
 
                     else:
