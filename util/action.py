@@ -16,6 +16,8 @@ def action(state, token):
     if state == 2:
         if token == "varinicio":
             return ["s", 4]
+        elif token == "PT_V":
+            return ["Err", 8]
 
         else:
             return ["Err", 6]
@@ -290,6 +292,9 @@ def action(state, token):
         elif token == "Num":
             return ["s", 45]
 
+        elif token == "OPM":
+            return ["Err", 24]
+
         else:
             return ["Err", 12]
 
@@ -408,6 +413,8 @@ def action(state, token):
         elif token == "fim":
             return ["r", 5]
 
+        elif token == "PT_V":
+            return ["Err", 8]
         else:
             return ["Erro", 0]
 
@@ -466,7 +473,7 @@ def action(state, token):
             return ["r", 20]
 
         else:
-            return ["Err", 17]
+            return ["Err", 25]
 
     if state == 45:
         if token == "PT_V":
@@ -552,6 +559,8 @@ def action(state, token):
             return ["r", 6]
         elif token == "id":
             return ["r", 6]
+        elif token == "PT_V":
+            return ["Err", 8]
 
         else:
             return ["Err", 23]
@@ -578,6 +587,8 @@ def action(state, token):
             return ["s", 44]
         elif token == "Num":
             return ["s", 45]
+        elif token == "PT_V":
+            return ["Err", 24]
 
         else:
             return ["Err", 16]
@@ -585,6 +596,9 @@ def action(state, token):
     if state == 54:
         if token == "entao":
             return ["s", 57]
+
+        elif token =="PT_V":
+            return ["Err", 8]
 
         else:
             return ["Err", 13]
@@ -616,6 +630,8 @@ def action(state, token):
             return ["r", 24]
         elif token == "fimse":
             return ["r", 24]
+        elif token =="PT_V":
+            return ["Err", 8]
 
         else:
             return ["Erro", 0]

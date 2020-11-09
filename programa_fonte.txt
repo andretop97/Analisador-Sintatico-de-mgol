@@ -6,8 +6,9 @@ inicio
         C real;
     varfim;
 
-    se(B<2)
-        se(B<=4)
+    se(B < 2)
+    entao
+        se(B<=4);
         entao
             escreva "B esta entre 2 e 4";
         fimse
@@ -15,7 +16,7 @@ inicio
 
     B<-B+1;
     B<-B+2;
-    B<- +3;
+    B<-B+3;
     D<-B;
     C<-5.0;
 

@@ -53,7 +53,6 @@ class syntacticAnalyzer:
 
                     elif str(actionResult[1]) == "8": #Ponto e vírgula inesperado
                         self.symbols.pop(token)
-                        stack.pop()
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "9": #Token inesperado
@@ -65,8 +64,7 @@ class syntacticAnalyzer:
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "11": #Faltou operador de atribuição
-                        token-=1
-                        self.symbols.insert(token,{"lexema": "<-" , "token": "RCB" , "tipo": "" , "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"]})
+                        stack.append(29)
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "12":
@@ -138,6 +136,21 @@ class syntacticAnalyzer:
                             i+=1
                         if i>5:
                             print("\n\n", Dicionario_de_erros["18"], "\n\n")
+
+                    elif str(actionResult[1]) == "24":
+                        stack.append(44)
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])], "na linha", self.symbols[token - 1]["line"], " e coluna ", self.symbols[token - 1]["column"], "\n\n")
+
+                    elif str(actionResult[1]) == "25":
+                        for i in range(len(rules[19][1])):
+                            stack.pop()
+                        state = stack[-1]
+                        stack.append(goto(state, rules[19][0]))
+
+                    # elif str(actionResult[1]) == "25":
+                    #     stack.append(44)
+                    #     print("\n\n", Dicionario_de_erros[str(actionResult[1])], "na linha", self.symbols[token - 1]["line"], " e coluna ", self.symbols[token - 1]["column"], "\n\n")
+
 
                     # elif str(actionResult[1]) == "24":
                     #     i=1

@@ -22,7 +22,7 @@ Dicionario_de_erros = {
 "21":"Erro de sintaxe: Só é possível escrever (id, Literal ou num)",
 "22":"Erro de sintaxe: Faltou abrir parenteses",
 "23":"Erro de sintaxe: Esperado um id",
-"24":"Erro de sintaxe: ",
+"24":"Erro de sintaxe: Operação Matematica invalida",
 "25":"Erro de sintaxe: ",
 "26":"Erro de sintaxe: ",
 "27":"Erro de sintaxe: ",
