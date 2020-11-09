@@ -126,7 +126,7 @@ def action(state, token):
             return ["s", 29]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 11]
 
     if state == 13:
         if token == "id":
@@ -190,7 +190,7 @@ def action(state, token):
             return ["s", 41]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 15]
 
     if state == 19:
         if token == "$":
@@ -289,7 +289,7 @@ def action(state, token):
             return ["s", 45]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 12]
 
     if state == 30:
         if token == "id":
@@ -377,7 +377,7 @@ def action(state, token):
             return ["s", 45]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 12]
 
     if state == 36:
         if token == "id":
@@ -464,7 +464,7 @@ def action(state, token):
             return ["r", 20]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 17]
 
     if state == 45:
         if token == "PT_V":
@@ -477,7 +477,7 @@ def action(state, token):
             return ["r", 21]
 
         else:
-            return ["Err", 7]
+            return ["Err", 10]
 
     if state == 46:
         if token == "id":
@@ -543,7 +543,7 @@ def action(state, token):
             return ["s", 55]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 14]
 
     if state == 51:
         if token == "varfim":
@@ -580,14 +580,14 @@ def action(state, token):
             return ["s", 45]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 12]
 
     if state == 54:
         if token == "entao":
             return ["s", 57]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 13]
 
     if state == 55:
         if token == "id":
@@ -596,7 +596,7 @@ def action(state, token):
             return ["s", 45]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 12]
 
     if state == 56:
         if token == "PT_V":
