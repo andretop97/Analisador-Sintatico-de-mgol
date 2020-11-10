@@ -37,7 +37,39 @@ class syntacticAnalyzer:
                 print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
-                if actionResult[0] == "Err": #tratamento geral para identificar os erros
+
+                if self.symbols[token]["token"] in Dicionario_de_erros:
+
+                    if self.symbols[token]["token"] == "1":
+                        self.symbols.insert(token,{"lexema": self.symbols[token]["lexema"] , "token": "id" , "tipo": "", "line": self.symbols[token]["line"], "column": self.symbols[token]["column"]})
+                        self.symbols.pop(token+1)
+                        print("\n\n", Dicionario_de_erros["1"], "\"", self.symbols[token]["lexema"], "\" " ,"na linha ", self.symbols[token]["line"], "\n\n")
+                        if stack[-1] in [18, 54, 55]:
+                            token+=1
+                        elif stack[-1] in [29]:
+                            stack.pop()
+                            stack.pop()
+                            stack.append(7)
+                            token+=1
+
+                    elif self.symbols[token]["token"] == "3":
+                        self.symbols.insert(token,{"lexema": self.symbols[token]["lexema"] , "token": "Literal" , "tipo": "", "line": self.symbols[token]["line"], "column": self.symbols[token]["column"]})
+                        self.symbols.pop(token+1)
+                        print("\n\n", Dicionario_de_erros["3"], "\"", self.symbols[token]["lexema"], "\" " ,"na linha ", self.symbols[token]["line"], "\n\n")
+
+
+                    elif self.symbols[token]["token"] == "4":
+                        self.symbols.insert(token,{"lexema": self.symbols[token]["lexema"] , "token": "Comentário" , "tipo": "", "line": self.symbols[token]["line"], "column": self.symbols[token]["column"]})
+                        self.symbols.pop(token+1)
+                        print("\n\n", Dicionario_de_erros["4"], "\"", self.symbols[token]["lexema"], "\" " ,"na linha ", self.symbols[token]["line"], "\n\n")
+                      
+                
+                
+                
+                elif self.symbols[token]["token"] == "Comentário":
+                    token+=1   
+
+                elif actionResult[0] == "Err": #tratamento geral para identificar os erros
 
                     if str(actionResult[1]) == "5": #Faltou início
                         self.symbols.insert(token,{"lexema": "inicio" , "token": "inicio" , "tipo": "", "line": 1, "column": 0})
@@ -60,7 +92,11 @@ class syntacticAnalyzer:
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "10": #Faltou fechar parentes
-                        self.symbols.insert(token,{"lexema": ")" , "token": "FC_P" , "tipo": "" , "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"] })
+                        #self.symbols.insert(token,{"lexema": ")" , "token": "FC_P" , "tipo": "" , "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"] })
+                        for i in range(len(rules[20][1])):
+                            stack.pop()
+                        state = stack[-1]
+                        stack.append(goto(state, rules[20][0]))
                         print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "11": #Faltou operador de atribuição
@@ -74,7 +110,7 @@ class syntacticAnalyzer:
 
                     elif str(actionResult[1]) == "13": 
                         self.symbols.insert(token,{"lexema": "entao" , "token": "entao" , "tipo": "", "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"] })
-                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", int(self.symbols[token - 1]["line"])+1 ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "14": 
                         stack.append(55)
@@ -121,21 +157,12 @@ class syntacticAnalyzer:
 
 
                     elif str(actionResult[1]) == "23":
-                        i=1
-                        while (i<5):
-                            if self.symbols[token+i]["token"] == "varfim":
-                                print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
-                                stack.pop()
-                                stack.pop()
-                                stack.pop()
-                                token += i #O ideal é pular até chegar no próximo id a ser declarado como variável. Tente ver qtos faltam até o ; e pule
-                                if self.symbols[token+i]["lexema"] == "lit" or self.symbols[token+i]["lexema"] == "real" or self.symbols[token+i]["lexema"] == "inteiro":
-                                    self.symbols.pop(token+i)
-                                if self.symbols[token+i]["lexema"] == ";":
-                                    self.symbols.pop(token+i)
-                            i+=1
-                        if i>5:
-                            print("\n\n", Dicionario_de_erros["18"], "\n\n")
+                        for i in range(len(rules[5][1])):
+                            stack.pop()
+                        state = stack[-1]
+                        stack.append(goto(state, rules[5][0]))
+                        token+=1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
                     elif str(actionResult[1]) == "24":
                         stack.append(44)
@@ -147,25 +174,27 @@ class syntacticAnalyzer:
                         state = stack[-1]
                         stack.append(goto(state, rules[19][0]))
 
-                    # elif str(actionResult[1]) == "25":
-                    #     stack.append(44)
-                    #     print("\n\n", Dicionario_de_erros[str(actionResult[1])], "na linha", self.symbols[token - 1]["line"], " e coluna ", self.symbols[token - 1]["column"], "\n\n")
 
+                    elif str(actionResult[1]) == "26":
+                        stack.append(45)
+                        #token+=1
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
 
-                    # elif str(actionResult[1]) == "24":
-                    #     i=1
-                    #     while (i<6):
-                    #         if self.symbols[token+i]["token"] == "entao":
-                    #             print("\n\n", Dicionario_de_erros[str(actionResult[1])], "\n\n")
-                    #
-                    #             token += i #O ideal é pular até chegar no próximo entao a ser declarado como variável. Tente ver qtos faltam até o ; e pule
-                    #             if self.symbols[token+i]["lexema"] == "lit" or self.symbols[token+i]["lexema"] == "real" or self.symbols[token+i]["lexema"] == "inteiro":
-                    #                 self.symbols.pop(token+i)
-                    #             if self.symbols[token+i]["lexema"] == ";":
-                    #                 self.symbols.pop(token+i)
-                    #         i+=1
-                    #     if i>5:
-                    #         print("\n\n", Dicionario_de_erros["18"], "\n\n")
+                    elif str(actionResult[1]) == "27": #Faltou fim
+                        self.symbols.insert(token, {"lexema": "fim" , "token": "fim" , "tipo": "", "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"]})
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token-1]["line"], "\n\n")
+                        if self.symbols[-2]["token"] == "Estado inicial":
+                            self.symbols.pop(token+1)
+
+                    elif str(actionResult[1]) == "28":
+                        self.symbols.insert(token,{"lexema": ")" , "token": "FC_P" , "tipo": "", "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"] })
+                    
+                    elif str(actionResult[1]) == "29": #Faltou fim
+                        self.symbols.insert(token,{"lexema": "fimse" , "token": "fimse" , "tipo": "", "line": self.symbols[token-1]["line"], "column": self.symbols[token - 1]["column"] })
+                        print("\n\n", Dicionario_de_erros[str(actionResult[1])],"na linha", self.symbols[token - 1]["line"] ," e coluna ",self.symbols[token - 1]["column"] , "\n\n")
+
+                    
+
 
                     else:
                         print("\n\nERRO NÃO TRATADO ", Dicionario_de_erros[str(actionResult[1])], "\n\n")

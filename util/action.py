@@ -174,6 +174,8 @@ def action(state, token):
             return ["s", 17]
         elif token == "id":
             return ["s", 18]
+        elif token == "PT_V":
+            return ["Err", 8]
 
         else:
             return ["Erro", 0]
@@ -218,7 +220,7 @@ def action(state, token):
             return ["r", 12]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 27]
 
     if state == 21:
         if token == "$":
@@ -328,7 +330,7 @@ def action(state, token):
             return ["s", 34]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 29]
 
     if state == 32:
         if token == "id":
@@ -358,7 +360,7 @@ def action(state, token):
             return ["s", 34]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 29]
 
     if state == 34:
         if token == "id":
@@ -375,7 +377,7 @@ def action(state, token):
             return ["r", 29]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 29]
 
     if state == 35:
         if token == "id":
@@ -471,9 +473,11 @@ def action(state, token):
             return ["r", 20]
         elif token == "FC_P":
             return ["r", 20]
+        elif token == "entao":
+            return ["Err", 10]
 
         else:
-            return ["Err", 25]
+            return ["Err", 7]
 
     if state == 45:
         if token == "PT_V":
@@ -484,9 +488,11 @@ def action(state, token):
             return ["r", 21]
         elif token == "FC_P":
             return ["r", 21]
+        elif token == "entao":
+            return ["Err", 10]
 
         else:
-            return ["Err", 10]
+            return ["Err", 7]
 
     if state == 46:
         if token == "id":
@@ -561,6 +567,8 @@ def action(state, token):
             return ["r", 6]
         elif token == "PT_V":
             return ["Err", 8]
+        elif token == "se":
+            return ["Err", 18]
 
         else:
             return ["Err", 23]
@@ -608,6 +616,8 @@ def action(state, token):
             return ["s", 44]
         elif token == "Num":
             return ["s", 45]
+        elif token == "FC_P":
+            return ["Err", 26]
 
         else:
             return ["Err", 12]
@@ -641,4 +651,4 @@ def action(state, token):
             return ["r", 25]
 
         else:
-            return ["Erro", 0]
+            return ["Err", 28]
