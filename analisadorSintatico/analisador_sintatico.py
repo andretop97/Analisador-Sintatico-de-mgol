@@ -1,12 +1,14 @@
 from analisadorLexico.analisador_lexico import *
 from util.goto import goto
 from util.action import action
+from analisadorSemantico.analisador_semantico import SemanticAnalyzer
 
 
 class syntacticAnalyzer:
 
     def __init__(self):
         self.symbols = self.getLexicalSymbols()
+        self.semanticAnalyzer = SemanticAnalyzer()
 
     def getLexicalSymbols(self):
         lexicalAnalyzer = LexicalAnalyzer()
@@ -17,8 +19,8 @@ class syntacticAnalyzer:
         token = 0
         stack = [0]
         while True:
-            print(stack)
-            print(self.symbols[token]["token"])
+            # print(stack)
+            # print(self.symbols[token]["token"])
             state = stack[-1]
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
@@ -31,7 +33,10 @@ class syntacticAnalyzer:
                     stack.pop()
                 state = stack[-1]
                 stack.append(goto(state, rules[indice][0]))
+
+
                 print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
+                self.semanticAnalyzer.analyzer(indice + 1, self.symbols[token - len(rules[indice][1]):token])
 
             elif actionResult[0] == "ACC":
                 print("regra  1  : ", rules[0][0], "->", *rules[0][1])
