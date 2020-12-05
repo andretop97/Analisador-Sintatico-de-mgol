@@ -1,17 +1,30 @@
 class SemanticAnalyzer:
     def __init__(self):
+        self.pilha = []
         self.Tx = 0
+
+    def stackShift(self, token):
+        self.pilha.append(token)
 
     def analyzer(self, rule, tokens):
         if rule == 5:
-            print("LV -> varfim")
+            print("LV -> varfim ;")
             # Imprimir três linhas brancas no arquivo objeto;
         elif rule == 6:
             print("D -> id TIPO ;")
-            #id.tipo <- TIPO.tipo
+
+            for token in tokens:
+                print(token)
+            print("\n\n")
+            # id.tipo <- TIPO.tipo
             # imprimir(TIPO.tipo id.lexema)
         elif rule == 7:
             print("TIPO -> inteiro")
+            TIPO = self.pilha.pop()
+            self.pilha.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': 3, 'column': 9})
+            for token in self.pilha:
+                print(token)
+            print("\n\n")
             # TIPO.tipo <- inteiro.tipo
         elif rule == 8:
             print("TIPO -> real")
@@ -88,7 +101,3 @@ class SemanticAnalyzer:
             #   EXP_R.lexema <- Tx
             #   Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo objeto.
             # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
-
-        for token in tokens:
-            print(token)
-        print("\n\n")

@@ -25,6 +25,7 @@ class syntacticAnalyzer:
             actionResult = action(state, self.symbols[token]["token"])
             if actionResult[0] == "s":
                 stack.append(actionResult[1])
+                self.semanticAnalyzer.stackShift(self.symbols[token])
                 token += 1
 
             elif actionResult[0] == "r":
@@ -34,12 +35,11 @@ class syntacticAnalyzer:
                 state = stack[-1]
                 stack.append(goto(state, rules[indice][0]))
 
-
                 # print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
                 self.semanticAnalyzer.analyzer(indice + 1, self.symbols[token - len(rules[indice][1]):token])
 
             elif actionResult[0] == "ACC":
-                print("regra  1  : ", rules[0][0], "->", *rules[0][1])
+                # print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
 
