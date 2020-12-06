@@ -1,4 +1,5 @@
 import os
+from util import grammar
 class SemanticAnalyzer:
     def __init__(self):
         self.stack = []
@@ -25,12 +26,14 @@ class SemanticAnalyzer:
 
         # Imprimir três linhas brancas no arquivo objeto;
         elif indiceRule == 5: #feito
+            print("Imprimir três linhas brancas no arquivo objeto\n")
             # print("LV -> varfim ;")
             self.writeBuffer("\n\n\n")
             varfim = self.stack.pop()
             self.stack.append({'lexema': "LV", 'token': varfim["token"], 'tipo': varfim["tipo"], 'line': varfim["line"], 'column': varfim["line"]})
             
         elif indiceRule == 6: #feita
+            print("id.tipo ß TIPO.tipo\nImprimir ( TIPO.tipo id.lexema ; )\n")
             # id.tipo <- TIPO.tipo
             # imprimir(TIPO.tipo id.lexema)
             # print("D -> id TIPO ;")
@@ -43,25 +46,25 @@ class SemanticAnalyzer:
 
         elif indiceRule == 7: #feito
             # TIPO.tipo <- inteiro.tipo
-            # print("TIPO -> inteiro")
+            print("TIPO -> inteiro")
             TIPO = self.stack.pop()
             self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': TIPO["line"], 'column': TIPO["column"]})
 
             
         elif indiceRule == 8: #feito
             # TIPO.tipo <- real.tipo
-            # print("TIPO -> real")
+            print("TIPO -> real")
             TIPO = self.stack.pop()
             self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': TIPO["line"], 'column': TIPO["column"]})
             
         elif indiceRule == 9: #feito
             # TIPO.tipo <- literal.tipo
-            # print("TIPO -> literal")
+            print("TIPO -> literal")
             TIPO = self.stack.pop()
             self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': TIPO["line"], 'column': TIPO["column"]})
             
         elif indiceRule == 11: #feito
-            # print("ES -> leia id;")
+            print("Verificar se o campo tipo do indentificador esta preenchido indicando a\ndeclaração do identificador (execução da regra semântica de número 6).\n\nSe sim, então:\n\tSe id.tipo = literal Imprimir ( scanf(“%s”, id.lexema); )\n\tSe id.tipo = inteiro Imprimir ( scanf(“%d”, &id.lexema); )\n\tSe id.tipo = real Imprimir ( scanf(“%lf”, &id.lexema); )\nCaso Contrário:\n\tEmitir na tela “Erro: Variável não declarada”.\n")
             # Verificar se o campo tipo do indentificador esta preenchido indicando a
             # declaração do identificador (execução da regra semântica de número 6).
 
@@ -87,6 +90,7 @@ class SemanticAnalyzer:
             else:
                 print("Erro Semântico na linha {}: Variável não declarada".format( PT_V["line"]))
         elif indiceRule == 12: #feito
+            print("Gerar código para o comando escreva no arquivo objeto.\nImprimir ( printf(“ARG.lexema”); )\n")
             # Gerar código para o comando escreva no arquivo objeto.
             # Imprimir ( printf(“ARG.lexema”); )
             # print("ES -> escreva ARG;")
@@ -106,17 +110,18 @@ class SemanticAnalyzer:
 
         elif indiceRule == 13: #feito
             # ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os atributos de ARG).
-            # print("ARG -> literal")
+            print("ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os atributos de ARG).")
             ARG = self.stack.pop()
             self.stack.append(ARG)
             
         elif indiceRule == 14: #feito
             # ARG.atributos <- num.atributos (Copiar todos os atributos de literal para os atributos de ARG)
-            # print("ARG -> num")
+            print("ARG.atributos <- num.atributos (Copiar todos os atributos de literal para os atributos de ARG)")
             ARG = self.stack.pop()
             self.stack.append(ARG)
 
         elif indiceRule == 15: #feito
+            print("Verificar se o identificador foi declarado (execução da regra semântica de número 6).\nSe sim, então:\n\tARG.atributos <- id.atributos (copia todos os atributos de id para os de ARG).\nCaso contrário:\n\tEmitir na tela “Erro: Variável não declarada”.")
             # Verificar se o identificador foi declarado (execução da regra semântica de número 6).
             # Se sim, então:
             #   ARG.atributos <- id.atributos (copia todos os atributos de id para os de ARG).
@@ -134,13 +139,7 @@ class SemanticAnalyzer:
                 self.stack.append(id)
 
         elif indiceRule == 17: #feito
-            # Verificar se id foi declarado (execução da regra semântica de número 6). Se sim, então:
-            #   Realizar verificação do tipo entre os operandos id e LD (ou seja, se ambos são do mesmo tipo).
-            #   Se sim, então:
-            #       Imprimir (id.lexema rcb.tipo LD.lexema) no arquivo objeto.
-            #   Caso contrário emitir:”Erro: Tipos diferentes para atribuição”.
-            # Caso contrário emitir “Erro: Variável não declarada”.
-            # print("CMD -> id rcb LD;")
+            print("Verificar se id foi declarado (execução da regra semântica de número 6). Se sim, então:\n\tRealizar verificação do tipo entre os operandos id e LD (ou seja, se ambos são do mesmo tipo).\n\t\n\tSe sim, então:\n\t\tImprimir (id.lexema rcb.tipo LD.lexema) no arquivo objeto.\n\tCaso contrário emitir:”Erro: Tipos diferentes para atribuição”.\nCaso contrário emitir “Erro: Variável não declarada”.")
 
             self.stack.pop()
             LD = self.stack.pop()
@@ -162,13 +161,7 @@ class SemanticAnalyzer:
                 print("Erro Semântico na linha {}: Variável não declarada".format(rcb["line"]))
 
         elif indiceRule == 18: #feito
-            # Verificar se tipo dos operandos são equivalentes e diferentes de literal.
-            # Se sim, então:
-            #   Gerar uma variável numérica temporária Tx, em que x é um número gerado sequencialmente.
-            #   LD.lexema <- Tx
-            #   Imprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema) no arquivo objeto.
-            # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
-            # print("LD -> OPRD opm OPRD")
+            print("Verificar se tipo dos operandos são equivalentes e diferentes de literal.\nSe sim, então:\n\tGerar uma variável numérica temporária Tx, em que x é um número gerado sequencialmente.\n\tLD.lexema <- Tx\n\tImprimir (Tx = OPRD.lexema opm.tipo OPRD.lexema) no arquivo objeto.\nCaso contrário emitir “Erro: Operandos com tipos incompatíveis”.")
 
             OPRD2 = self.stack.pop()
             opm = self.stack.pop()
@@ -187,16 +180,12 @@ class SemanticAnalyzer:
 
         elif indiceRule == 19: #feito
             # LD.atributos <- OPRD.atributos (Copiar todos os atributos de OPRD para os atributos de LD).
-            # print("LD -> OPRD")
+            print("LD.atributos <- OPRD.atributos (Copiar todos os atributos de OPRD para os atributos de LD).")
             LD = self.stack.pop()
             self.stack.append(LD)
 
         elif indiceRule == 20: #feito
-            # Verificar	se	o	identificador	está	declarado.
-            # Se sim, então:
-            #   OPRD.atributos	<- id.atributos
-            # Caso contrário emitir “Erro: Variável não declarada”.
-            # print("OPRD -> id")
+            print("Verificar	se	o	identificador	está	declarado.\nSe sim, então:\n\tOPRD.atributos	<- id.atributos\nCaso contrário emitir “Erro: Variável não declarada”.")
 
             id = self.stack.pop()
 
@@ -207,14 +196,14 @@ class SemanticAnalyzer:
 
         elif indiceRule == 21: #feito
             # OPRD.atributos	<- num.atributos (Copiar todos os atributos de num para os atributos de OPRD).
-            # print("OPRD -> num")
+            print("OPRD.atributos	<- num.atributos (Copiar todos os atributos de num para os atributos de OPRD).")
 
             OPRD = self.stack.pop()
             self.stack.append(OPRD)
 
         elif indiceRule == 23: #feita
             # Imprimir ( } ) no arquivo objeto.
-            # print("COND -> CABECALHO CORPO")
+            print("Imprimir ( } ) no arquivo objeto.")
             CABECALHO = self.stack.pop()
             CORPO = self.stack.pop()
             self.indentation -= 1
@@ -224,7 +213,7 @@ class SemanticAnalyzer:
 
         elif indiceRule == 24: #feito
             # Imprimir ( if ( EXP_R.lexema ) { ) no arquivo objeto.
-            # print("CABECALHO -> se ( EXP_R ) entao")
+            print("Imprimir ( if ( EXP_R.lexema ) { ) no arquivo objeto.")
 
             self.stack.pop()
             self.stack.pop()
@@ -237,13 +226,7 @@ class SemanticAnalyzer:
             self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': "", 'line': EXP_R["line"], 'column': EXP_R["column"]})
 
         elif indiceRule == 25: #feito
-            # Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a realização de comparação relacional.
-            # Se sim, então:
-            #   Gerar uma variável booleana temporária Tx, em que x é um número gerado sequencialmente.
-            #   EXP_R.lexema <- Tx
-            #   Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo objeto.
-            # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
-            # print("EXP_R -> OPRD opr OPRD")
+            print("Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a realização de comparação relacional.\nSe sim, então:\n\tGerar uma variável booleana temporária Tx, em que x é um número gerado sequencialmente.\n\tEXP_R.lexema <- Tx\n\tImprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo objeto.\nCaso contrário emitir “Erro: Operandos com tipos incompatíveis”.")
 
 
             OPRD2 = self.stack.pop()

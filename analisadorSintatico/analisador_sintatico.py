@@ -35,11 +35,11 @@ class syntacticAnalyzer:
                 state = stack[-1]
                 stack.append(goto(state, rules[indice][0]))
 
-                # print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
+                print("regra ", indice + 1 , " : ", rules[indice][0], "->", *rules[indice][1])
                 self.semanticAnalyzer.analyzer(indice + 1, len(rules[indice][1]))
 
             elif actionResult[0] == "ACC":
-                # print("regra  1  : ", rules[0][0], "->", *rules[0][1])
+                print("regra  1  : ", rules[0][0], "->", *rules[0][1])
                 break
             else:
 
