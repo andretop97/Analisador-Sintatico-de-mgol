@@ -3,9 +3,10 @@
 */__pycache__
 *.py[cod]
 
+
 # C extensions
 *.so
-
+*.c
 # Distribution / packaging
 .Python
 env/
