@@ -61,10 +61,34 @@ class LexicalAnalyzer:
         if self.symbleTable.checkSymbolExistence(lexeme):
             symbol = self.symbleTable.symbol[lexeme]
             symbol["line"] = line
-            symbol["column"] = column
-            self.symbols.append(symbol)
+            symbol["column"] = column   
+
+            self.symbols.append(symbol)  
+    
         else:
-            self.symbols.append({"lexema": lexeme, "token": token, "tipo": "", "line": line, "column": column})
+            tipo=""
+            if token == 'Num':
+                if self.isInt(lexeme):
+                    tipo = 'int'
+                else:
+                    tipo = 'double'
+            elif token == 'RCB':
+                tipo = "="
+            elif token == 'OPM':
+                tipo = lexeme
+            elif token == 'OPR':
+                tipo = lexeme
+
+            self.symbols.append({"lexema": lexeme, "token": token, "tipo": tipo, "line": line, "column": column})
+
+    def isInt(self, num):
+        try: 
+            int(num)
+            return True
+        except ValueError:
+            return False
+
+
 
     def readFile(self , fileName):
         return open(fileName,"r") #Lê o arquivo indicado
