@@ -19,17 +19,19 @@ class SemanticAnalyzer:
         elif indiceRule == 6:
             # id.tipo <- TIPO.tipo
             # imprimir(TIPO.tipo id.lexema)
-            print("D -> id TIPO ;")
-            for i in lenRightRule:
-                self.stack.pop()
+            # print("D -> id TIPO ;")
+            print(self.stack[-2]["tipo"], self.stack[-3]["lexema"])
 
-            for batatinha in self.stack:
-                print(batatinha)
+            self.stack[-3]["tipo"]=self.stack[-2]["tipo"]
 
-            # for token in tokens:
-            #     print(token)
-            # print("\n\n")
-            
+            self.stack.pop()
+            self.stack.pop()
+
+            for statckzinho in self.stack:
+                print(statckzinho)
+
+
+
         elif indiceRule == 7: #feito
             # TIPO.tipo <- inteiro.tipo
             # print("TIPO -> inteiro")
@@ -53,12 +55,27 @@ class SemanticAnalyzer:
             print("ES -> leia id;")
             # Verificar se o campo tipo do indentificador esta preenchido indicando a
             # declaração do identificador (execução da regra semântica de número 6).
+
             # Se sim, então:
             #   Se id.tipo = literal Imprimir ( scanf(“%s”, id.lexema); )
             #   Se id.tipo = inteiro Imprimir ( scanf(“%d”, &id.lexema); )
             #   Se id.tipo = real Imprimir ( scanf(“%lf”, &id.lexema); )
             # Caso Contrário:
             #   Emitir na tela “Erro: Variável não declarada”.
+
+            # self.stack.pop()
+            # id=self.stack.pop()
+            # self.stack.pop()
+
+            # print("ID ===== ", id)
+
+            # if id["tipo"] != "":
+            #     if id["tipo"] == "string":
+            #          self.writeFile('scanf("%' + 'lf"), &{}\n'.format(id["lexema"]) + ");")
+
+            # for statckzinho in self.stack:
+            #     print(statckzinho)
+
         elif indiceRule == 12: #feito
             # Gerar código para o comando escreva no arquivo objeto.
             # Imprimir ( printf(“ARG.lexema”); )
@@ -125,7 +142,7 @@ class SemanticAnalyzer:
             self.stack.append({'lexema': OPRD["lexema"], 'token': OPRD["token"], 'tipo': OPRD["tipo"], 'line': OPRD["line"], 'column': OPRD["column"]})
 
             
-        elif indiceRule == 23:
+        elif indiceRule == 23: #feita
             # Imprimir ( } ) no arquivo objeto.
             # print("COND -> CABECALHO CORPO")
             self.writeFile("}\n")
