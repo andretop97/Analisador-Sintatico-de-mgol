@@ -26,8 +26,8 @@ class SemanticAnalyzer:
         elif indiceRule == 5: #feito
             # print("LV -> varfim ;")
             self.writeBuffer("\n\n\n")
-            self.stack.pop()
-            self.stack.append({'lexema': "LV", 'token': "", 'tipo': ""})
+            varfim = self.stack.pop()
+            self.stack.append({'lexema': "LV", 'token': varfim["token"], 'tipo': varfim["tipo"], 'line': varfim["line"], 'column': varfim["line"]})
             
         elif indiceRule == 6: #feita
             # id.tipo <- TIPO.tipo
@@ -74,7 +74,7 @@ class SemanticAnalyzer:
             self.stack.pop()
             id = self.stack.pop()
             self.stack.pop()
-            self.stack.append({'lexema': "ES", 'token': "", 'tipo': ""})
+            self.stack.append({'lexema': "ES", 'token': "", 'tipo': "", 'line': id["line"], 'column': id["column"]})
 
             if id["tipo"] != "":
                 if id["tipo"] == "literal":
@@ -101,7 +101,7 @@ class SemanticAnalyzer:
                 self.writeBuffer('printf("%lf", {});\n'.format(ARG["lexema"]))
             else:
                 self.writeBuffer('printf({});\n'.format(ARG["lexema"]))
-            self.stack.append({'lexema': "ES", 'token': "", 'tipo': ""})
+            self.stack.append({'lexema': "ES", 'token': "", 'tipo': "", 'line': ARG["line"], 'column': ARG['column']})
 
         elif indiceRule == 13: #feito
             # ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os atributos de ARG).
@@ -146,17 +146,16 @@ class SemanticAnalyzer:
             if id["tipo"] != "" and LD["tipo"] != "":
                 if id["tipo"] == LD["tipo"]:
                     self.writeBuffer("{} {} {};\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
-                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
+                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
                 elif id["tipo"] == 'double' and LD["tipo"] == 'int':
                     self.writeBuffer("{} {} {};\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
-                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
+                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
                 else:
-                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
+                    self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
                     print("Erro: Tipos diferentes para atribuição")
             else:
-                self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
+                self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
                 print("Erro: Variável não declarada")
-
 
         elif indiceRule == 18: #feito
             # Verificar se tipo dos operandos são equivalentes e diferentes de literal.
@@ -174,13 +173,13 @@ class SemanticAnalyzer:
             if OPRD1["tipo"] != "literal" and OPRD2["tipo"] != "literal" and OPRD1["tipo"] == OPRD2["tipo"]:
                 tx = self.tx
                 self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opm["tipo"], OPRD2["lexema"])),
-                self.stack.append({'lexema': "T{}".format(tx), 'token': "", 'tipo': OPRD1["tipo"]})
+                self.stack.append({'lexema': "T{}".format(tx), 'token': "", 'tipo': OPRD1["tipo"], 'line': OPRD1["line"], 'column': OPRD1["column"]})
                 self.tx += 1
-            elif  OPRD1["tipo"] == "" or OPRD2["tipo"] == "":
-                self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"]})
+            elif OPRD1["tipo"] == "" or OPRD2["tipo"] == "":
+                self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"], 'line': OPRD1["line"], 'column': OPRD1["column"]})
             else:
                 print("Erro: Operandos com tipos incompatíveis")
-                self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"]})
+                self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"], 'line': OPRD1["line"], 'column': OPRD1["column"]})
 
         elif indiceRule == 19: #feito
             # LD.atributos <- OPRD.atributos (Copiar todos os atributos de OPRD para os atributos de LD).
@@ -213,10 +212,10 @@ class SemanticAnalyzer:
         elif indiceRule == 23: #feita
             # Imprimir ( } ) no arquivo objeto.
             # print("COND -> CABECALHO CORPO")
-            self.stack.pop()
-            self.stack.pop()
+            CABECALHO = self.stack.pop()
+            CORPO = self.stack.pop()
             self.writeBuffer("}\n")
-            self.stack.append({'lexema': "COND", 'token': "", 'tipo': ""})
+            self.stack.append({'lexema': "COND", 'token': "", 'tipo': "", 'line': CABECALHO["line"], 'column': CABECALHO["column"]})
 
         elif indiceRule == 24: #feito
             # Imprimir ( if ( EXP_R.lexema ) { ) no arquivo objeto.
@@ -229,7 +228,7 @@ class SemanticAnalyzer:
             self.stack.pop()
             aux = "if ( {} ) ".format(EXP_R["lexema"]) + "\n{\n"
             self.writeBuffer(aux)
-            self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': ""})
+            self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': "", 'line': EXP_R["line"], 'column': EXP_R["column"]})
 
         elif indiceRule == 25: #feito
             # Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a realização de comparação relacional.
@@ -244,11 +243,17 @@ class SemanticAnalyzer:
             opr = self.stack.pop()
             OPRD1 = self.stack.pop()
 
-            if True:
+            if OPRD1["tipo"] == OPRD1["tipo"] or OPRD1["token"] == OPRD1["token"]:
                 tx = self.tx
-                self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean"})
+                self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
                 self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
                 self.tx += 1
+            else:
+                self.stack.append({'lexema': "EXP_R", 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
+                print("Erro: Operandos com tipos incompatíveis")
+
+            for i in self.stack:
+                print(i)
 
     def resetFile(self):
         try:

@@ -78,6 +78,8 @@ class LexicalAnalyzer:
                 tipo = lexeme
             elif token == 'OPR':
                 tipo = lexeme
+            elif token == 'PT_V':
+                tipo = lexeme
 
             self.symbols.append({"lexema": lexeme, "token": token, "tipo": tipo, "line": line, "column": column})
 

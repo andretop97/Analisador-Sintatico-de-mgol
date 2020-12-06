@@ -19,7 +19,7 @@ printf("Digite B");
 scanf("%d", &B);
 printf("Digite A:");
 scanf("%s", A);
-T0 = B > 2;
+T0 = B > A;
 if ( T0 ) 
 {
 T1 = B <= 4;
