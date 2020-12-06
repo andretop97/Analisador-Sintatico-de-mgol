@@ -13,7 +13,11 @@ class SemanticAnalyzer:
     def analyzer(self, indiceRule, lenRightRule):
 
         if indiceRule == 2:
-
+            header = "#include<stdio.h> \ntypedef char literal[256]; \nvoid main(void) { \n/*----Variaveis temporarias----*/ \n"
+            for x in range(self.tx):
+                header += "int T{};\n".format(x)
+            header += "/*------------------------------*/\n"
+            self.Buffer = header + self.Buffer
             self.writeBuffer("}")
             self.writeFile()
             
@@ -32,7 +36,7 @@ class SemanticAnalyzer:
             # print(self.stack[-2]["tipo"], self.stack[-3]["lexema"])
 
             self.stack[-3]["tipo"]=self.stack[-2]["tipo"]
-
+            self.writeBuffer("{} {} ;\n".format(self.stack[-2]["tipo"], self.stack[-3]["lexema"]))
             self.stack.pop()
             self.stack.pop()
 
@@ -223,7 +227,7 @@ class SemanticAnalyzer:
             EXP_R = self.stack.pop()
             self.stack.pop()
             self.stack.pop()
-            aux = "if ( {} ) ".format(EXP_R["lexema"]) + "{\n"
+            aux = "if ( {} ) ".format(EXP_R["lexema"]) + "\n{\n"
             self.writeBuffer(aux)
             self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': ""})
 
