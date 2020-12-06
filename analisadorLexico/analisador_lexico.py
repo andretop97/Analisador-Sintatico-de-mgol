@@ -54,13 +54,15 @@ class LexicalAnalyzer:
         self.symbleTable.addSymbol("fimse","fimse","")
         self.symbleTable.addSymbol("fim","fim","")
         self.symbleTable.addSymbol("inteiro","inteiro","int")
-        self.symbleTable.addSymbol("lit","lit","string")
+        self.symbleTable.addSymbol("lit","lit","literal")
         self.symbleTable.addSymbol("real","real","double")
 
     def lexicon(self, lexeme, token, line, column):
         if self.symbleTable.checkSymbolExistence(lexeme):
             symbol = self.symbleTable.symbol[lexeme]
-            self.symbols.append({"lexema": symbol["lexema"], "token": symbol["token"], "tipo": symbol["tipo"], "line": line, "column": column})
+            symbol["line"] = line
+            symbol["column"] = column
+            self.symbols.append(symbol)
         else:
             self.symbols.append({"lexema": lexeme, "token": token, "tipo": "", "line": line, "column": column})
 

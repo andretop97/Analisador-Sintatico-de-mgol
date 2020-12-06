@@ -5,7 +5,10 @@ inicio
         D inteiro;
         C real;
     varfim;
-
+    escreva "Digite B";
+    leia B;
+    escreva "Digite A:";
+    leia A;
     se(B<2)
     entao
         se(B<=4)
@@ -21,7 +24,7 @@ inicio
     C<-5.0;
 
     escreva "\nB=\n";
-    leia A;
+    escreva D;
     escreva "\n";
     escreva C;
     escreva "\n";

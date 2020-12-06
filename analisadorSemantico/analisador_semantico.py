@@ -1,5 +1,4 @@
 import os
-from analisadorLexico import *
 class SemanticAnalyzer:
     def __init__(self):
         self.stack = []
@@ -15,6 +14,8 @@ class SemanticAnalyzer:
         if indiceRule == 5: #feito
             # print("LV -> varfim ;")
             self.writeFile("\n\n\n")
+            self.stack.pop()
+            self.stack.append({'lexema': "LV", 'token': "", 'tipo': ""})
             
         elif indiceRule == 6:
             # id.tipo <- TIPO.tipo
@@ -27,11 +28,6 @@ class SemanticAnalyzer:
             self.stack.pop()
             self.stack.pop()
 
-            for statckzinho in self.stack:
-                print(statckzinho)
-
-
-
         elif indiceRule == 7: #feito
             # TIPO.tipo <- inteiro.tipo
             # print("TIPO -> inteiro")
@@ -43,13 +39,13 @@ class SemanticAnalyzer:
             # TIPO.tipo <- real.tipo
             # print("TIPO -> real")
             TIPO = self.stack.pop()
-            self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': 3, 'column': 9})
+            self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': TIPO["line"], 'column': TIPO["column"]})
             
         elif indiceRule == 9: #feito
             # TIPO.tipo <- literal.tipo
             # print("TIPO -> literal")
             TIPO = self.stack.pop()
-            self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': 3, 'column': 9})
+            self.stack.append({'lexema': 'TIPO', 'token': 'TIPO', 'tipo': TIPO["tipo"], 'line': TIPO["line"], 'column': TIPO["column"]})
             
         elif indiceRule == 11:
             print("ES -> leia id;")
@@ -63,37 +59,46 @@ class SemanticAnalyzer:
             # Caso Contrário:
             #   Emitir na tela “Erro: Variável não declarada”.
 
-            # self.stack.pop()
-            # id=self.stack.pop()
-            # self.stack.pop()
+            self.stack.pop()
+            id = self.stack.pop()
+            self.stack.pop()
+            self.stack.append({'lexema': "ES", 'token': "", 'tipo': ""})
 
-            # print("ID ===== ", id)
-
-            # if id["tipo"] != "":
-            #     if id["tipo"] == "string":
-            #          self.writeFile('scanf("%' + 'lf"), &{}\n'.format(id["lexema"]) + ");")
-
-            # for statckzinho in self.stack:
-            #     print(statckzinho)
-
+            if id["tipo"] != "":
+                if id["tipo"] == "literal":
+                    self.writeFile('scanf("%s", {}'.format(id["lexema"]) + ");\n")
+                elif id["tipo"] == "int":
+                    self.writeFile('scanf("%d", &{}'.format(id["lexema"]) + ");\n")
+                elif id["tipo"] == "double":
+                    self.writeFile('scanf("%lf", &{}'.format(id["lexema"]) + ");\n")
+            else:
+                print("Erro: Variável não declarada")
         elif indiceRule == 12: #feito
             # Gerar código para o comando escreva no arquivo objeto.
             # Imprimir ( printf(“ARG.lexema”); )
             # print("ES -> escreva ARG;")
-            ARG = self.stack[-2]
+
+            for i in :
+                print(i)
+
+
+            self.stack.pop()
+            ARG = self.stack.pop()
+            self.stack.pop()
             self.writeFile("printf({})\n".format(ARG["lexema"]))
+            self.stack.append({'lexema': "ES", 'token': "", 'tipo': ""})
 
         elif indiceRule == 13: #feito
             # ARG.atributos <- literal.atributos (Copiar todos os atributos de literal para os atributos de ARG).
             # print("ARG -> literal")
             ARG = self.stack.pop()
-            self.stack.append({'lexema': ARG["lexema"], 'token': ARG["token"], 'tipo': ARG["tipo"], 'line': ARG["line"], 'column': ARG["column"]})
+            self.stack.append(ARG)
             
         elif indiceRule == 14: #feito
             # ARG.atributos <- num.atributos (Copiar todos os atributos de literal para os atributos de ARG)
             # print("ARG -> num")
             ARG = self.stack.pop()
-            self.stack.append({'lexema': ARG["lexema"], 'token': ARG["token"], 'tipo': ARG["tipo"], 'line': ARG["line"], 'column': ARG["column"]})
+            self.stack.append(ARG)
 
         elif indiceRule == 15:
             # Verificar se o identificador foi declarado (execução da regra semântica de número 6).
@@ -102,6 +107,11 @@ class SemanticAnalyzer:
             # Caso Contrário:
             #   Emitir na tela “Erro: Variável não declarada”.
             print("ARG -> id")
+            id = self.stack.pop()
+            if(id["tipo"] != ""):
+                self.stack.append(id)
+            else:
+                print("Erro: Variável não declarada")
 
         elif indiceRule == 17:
             # Verificar se id foi declarado (execução da regra semântica de número 6). Se sim, então:
@@ -110,7 +120,23 @@ class SemanticAnalyzer:
             #       Imprimir (id.lexema rcb.tipo LD.lexema) no arquivo objeto.
             #   Caso contrário emitir:”Erro: Tipos diferentes para atribuição”.
             # Caso contrário emitir “Erro: Variável não declarada”.
-            print("CMD -> id rcb LD")
+            print("CMD -> id rcb LD;")
+
+            self.stack.pop()
+            LD = self.stack.pop()
+            rcb = self.stack.pop()
+            id = self.stack.pop()
+
+            if id["tipo"] != "":
+                if id["tipo"] == LD["tipo"]:
+                    self.writeFile("{} {} {}\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
+                    self.stack.append({'lexema': "CMD", 'token': "", 'tipo': ""})
+                else:
+                    print("Erro: Tipos diferentes para atribuição")
+            else:
+                print("Erro: Variável não declarada")
+
+
 
         elif indiceRule == 18:
             # Verificar se tipo dos operandos são equivalentes e diferentes de literal.
@@ -121,58 +147,82 @@ class SemanticAnalyzer:
             # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
             print("LD -> OPRD opm OPRD")
 
+            OPRD2 = self.stack.pop()
+            opm = self.stack.pop()
+            OPRD1 = self.stack.pop()
+
+            if OPRD1["tipo"] != "literal" and OPRD2["tipo"] != "literal" and OPRD1["tipo"] == OPRD2["tipo"]:
+                tx = self.tx
+                self.writeFile("T{} = {} {} {}\n".format(tx, OPRD1["lexema"], opm["tipo"], OPRD2["lexema"])),
+                self.stack.append({'lexema': "T".format(tx), 'token': "", 'tipo': ""})
+                self.tx += 1
 
         elif indiceRule == 19: #feito
             # LD.atributos <- OPRD.atributos (Copiar todos os atributos de OPRD para os atributos de LD).
             # print("LD -> OPRD")
             LD = self.stack.pop()
-            self.stack.append({'lexema': LD["lexema"], 'token': LD["token"], 'tipo': LD["tipo"], 'line': LD["line"], 'column': LD["column"]})
+            self.stack.append(LD)
 
         elif indiceRule == 20:
-            print("OPRD -> id")
             # Verificar	se	o	identificador	está	declarado.
             # Se sim, então:
             #   OPRD.atributos	<- id.atributos
             # Caso contrário emitir “Erro: Variável não declarada”.
+            print("OPRD -> id")
+
+            id = self.stack.pop()
+
+            if id["tipo"] != "":
+                self.stack.append(id)
+            else:
+                print("Erro: Variável não declarada")
 
         elif indiceRule == 21: #feito
             # OPRD.atributos	<- num.atributos (Copiar todos os atributos de num para os atributos de OPRD).
             # print("OPRD -> num")
             OPRD = self.stack.pop()
-            self.stack.append({'lexema': OPRD["lexema"], 'token': OPRD["token"], 'tipo': OPRD["tipo"], 'line': OPRD["line"], 'column': OPRD["column"]})
+            self.stack.append(OPRD)
 
             
         elif indiceRule == 23: #feita
             # Imprimir ( } ) no arquivo objeto.
             # print("COND -> CABECALHO CORPO")
+            self.stack.pop()
+            self.stack.pop()
             self.writeFile("}\n")
+            self.stack.append({'lexema': "COND", 'token': "", 'tipo': ""})
 
         elif indiceRule == 24:
             # Imprimir ( if ( EXP_R.lexema ) { ) no arquivo objeto.
             print("CABECALHO -> se ( EXP_R ) entao")
-            EXP_R= "batata"
-            aux = "if ( {} ) ".format(EXP_R) + "{\n"
+
+            self.stack.pop()
+            self.stack.pop()
+            EXP_R = self.stack.pop()
+            self.stack.pop()
+            self.stack.pop()
+            aux = "if ( {} ) ".format(EXP_R["lexema"]) + "{\n"
             self.writeFile(aux)
+            self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': ""})
 
         elif indiceRule == 25:
-            print("EXP_R -> OPRD opr OPRD")
             # Verificar se os tipos de dados de OPRD são iguais ou equivalentes para a realização de comparação relacional.
             # Se sim, então:
             #   Gerar uma variável booleana temporária Tx, em que x é um número gerado sequencialmente.
             #   EXP_R.lexema <- Tx
             #   Imprimir (Tx = OPRD.lexema opr.tipo OPRD.lexema) no arquivo objeto.
             # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
+            print("EXP_R -> OPRD opr OPRD")
 
-            # if OPRD1.tipo == OPRD2.tipo:
-            #     tx = self.tx
-            #     self.stack.append({'lexema': OPRD opr OPRD, 'token': "EXP_R", 'tipo': "")
-            #     self.writeFile("T{} = {} {} {}".format(tx,OPRD1.lexema , opr.tipo , OPRD2.lexema))
-            #     self.tx += 1
-            # else:
-            #     print("Err: Operandos com tipos incompatíveis")
+            OPRD2 = self.stack.pop()
+            opr = self.stack.pop()
+            OPRD1 = self.stack.pop()
 
-
-
+            if OPRD1["tipo"] == OPRD2["tipo"] or OPRD1["lexema"] == OPRD2["lexema"]:
+                tx = self.tx
+                self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean"})
+                self.writeFile("T{} = {} {} {}\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
+                self.tx += 1
 
     def resetFile(self):
         try:
