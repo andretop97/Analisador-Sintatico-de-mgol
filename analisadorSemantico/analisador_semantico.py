@@ -71,7 +71,7 @@ class SemanticAnalyzer:
             # Caso Contrário:
             #   Emitir na tela “Erro: Variável não declarada”.
 
-            self.stack.pop()
+            PT_V = self.stack.pop()
             id = self.stack.pop()
             self.stack.pop()
             self.stack.append({'lexema': "ES", 'token': "", 'tipo': "", 'line': id["line"], 'column': id["column"]})
@@ -84,7 +84,7 @@ class SemanticAnalyzer:
                 elif id["tipo"] == "double":
                     self.writeBuffer('scanf("%lf", &{}'.format(id["lexema"]) + ");\n")
             else:
-                print("Erro: Variável não declarada")
+                print("Erro Semântico na linha {}: Variável não declarada".format( PT_V["line"]))
         elif indiceRule == 12: #feito
             # Gerar código para o comando escreva no arquivo objeto.
             # Imprimir ( printf(“ARG.lexema”); )
@@ -122,11 +122,14 @@ class SemanticAnalyzer:
             # Caso Contrário:
             #   Emitir na tela “Erro: Variável não declarada”.
             # print("ARG -> id")
+
+
             id = self.stack.pop()
+
             if(id["tipo"] != ""):
                 self.stack.append(id)
             else:
-                print("Erro: Variável não declarada")
+                print("Erro Semântico na linha {}: Variável não declarada".format(id['line']))
                 self.stack.append(id)
 
         elif indiceRule == 17: #feito
@@ -152,10 +155,10 @@ class SemanticAnalyzer:
                     self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
                 else:
                     self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
-                    print("Erro: Tipos diferentes para atribuição")
+                    print("Erro Semântico na linha {}: Tipos diferentes para atribuição".format(rcb["line"]))
             else:
                 self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo'], 'line': id['line'], 'column': id['column']})
-                print("Erro: Variável não declarada")
+                print("Erro Semântico na linha {}: Variável não declarada".format(rcb["line"]))
 
         elif indiceRule == 18: #feito
             # Verificar se tipo dos operandos são equivalentes e diferentes de literal.
@@ -178,7 +181,7 @@ class SemanticAnalyzer:
             elif OPRD1["tipo"] == "" or OPRD2["tipo"] == "":
                 self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"], 'line': OPRD1["line"], 'column': OPRD1["column"]})
             else:
-                print("Erro: Operandos com tipos incompatíveis")
+                print("Erro Semêntico na linha {}: Operandos com tipos incompatíveis".format(opm['line']))
                 self.stack.append({'lexema': "LD", 'token': "", 'tipo': OPRD1["tipo"], 'line': OPRD1["line"], 'column': OPRD1["column"]})
 
         elif indiceRule == 19: #feito
@@ -199,7 +202,6 @@ class SemanticAnalyzer:
             if id["tipo"] != "":
                 self.stack.append(id)
             else:
-                print("Erro: Variável não declarada")
                 self.stack.append(id)
 
         elif indiceRule == 21: #feito
@@ -239,21 +241,24 @@ class SemanticAnalyzer:
             # Caso contrário emitir “Erro: Operandos com tipos incompatíveis”.
             # print("EXP_R -> OPRD opr OPRD")
 
+
             OPRD2 = self.stack.pop()
             opr = self.stack.pop()
             OPRD1 = self.stack.pop()
 
-            if OPRD1["tipo"] == OPRD1["tipo"] or OPRD1["token"] == OPRD1["token"]:
-                tx = self.tx
-                self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
-                self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
-                self.tx += 1
-            else:
-                self.stack.append({'lexema': "EXP_R", 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
-                print("Erro: Operandos com tipos incompatíveis")
 
-            for i in self.stack:
-                print(i)
+            if OPRD1["tipo"] != '' and OPRD2["tipo"] != "":
+                if (OPRD1["tipo"] ==  "int" or OPRD1["tipo"] == 'double') and (OPRD2["tipo"] ==  "int" or OPRD2["tipo"] == 'double'):
+                    tx = self.tx
+                    self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
+                    self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
+                    self.tx += 1
+                else:
+                    self.stack.append({'lexema': "EXP_R", 'token': "boolean", 'tipo': "boolean", 'line': OPRD1["line"], 'column': OPRD1["column"]})
+                    print("Erro Semêntico na linha {}: Operandos com tipos incompatíveis".format(opr['line']))
+            else:
+                print("Erro Semântico na linha {}: Variável não declarada".format(opr["line"]))
+
 
     def resetFile(self):
         try:
