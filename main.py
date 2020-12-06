@@ -19,10 +19,20 @@ from analisadorLexico.analisador_lexico import *
 #     print("lexema: " , symbol["lexema"] , " token: " , symbol["token"] , " tipo: " , symbol["tipo"])
 
 from analisadorSintatico.analisador_sintatico import syntacticAnalyzer
-lexicalAnalyzer = syntacticAnalyzer()
+
+sintatico = syntacticAnalyzer()
 # for i in lexicalAnalyzer:
 #     print(i)
-lexicalAnalyzer.analyzer()
+
+sintatico.analyzer()
+
+# for batatinha in lexicalAnalyzer.semanticAnalyzer.pilha:
+#     print(batatinha)
+
+# for symbol in sintatico.symbols:
+#     print(symbol)
+
+
 
 # print("\nTabela de símbolos")
 # for item in lexicalAnalyzer.teste.symbleTable.symbol:
