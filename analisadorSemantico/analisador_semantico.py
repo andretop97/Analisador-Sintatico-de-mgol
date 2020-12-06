@@ -4,6 +4,7 @@ class SemanticAnalyzer:
         self.stack = []
         self.tx = 0
         self.resetFile()
+        self.Buffer=""
 
 
     def stackShift(self, token):
@@ -13,12 +14,14 @@ class SemanticAnalyzer:
 
         if indiceRule == 2:
 
-            self.writeFile("}")
+            self.writeBuffer("}")
+            self.writeFile()
+            
 
         # Imprimir três linhas brancas no arquivo objeto;
         elif indiceRule == 5: #feito
             # print("LV -> varfim ;")
-            self.writeFile("\n\n\n")
+            self.writeBuffer("\n\n\n")
             self.stack.pop()
             self.stack.append({'lexema': "LV", 'token': "", 'tipo': ""})
             
@@ -71,11 +74,11 @@ class SemanticAnalyzer:
 
             if id["tipo"] != "":
                 if id["tipo"] == "literal":
-                    self.writeFile('scanf("%s", {}'.format(id["lexema"]) + ");\n")
+                    self.writeBuffer('scanf("%s", {}'.format(id["lexema"]) + ");\n")
                 elif id["tipo"] == "int":
-                    self.writeFile('scanf("%d", &{}'.format(id["lexema"]) + ");\n")
+                    self.writeBuffer('scanf("%d", &{}'.format(id["lexema"]) + ");\n")
                 elif id["tipo"] == "double":
-                    self.writeFile('scanf("%lf", &{}'.format(id["lexema"]) + ");\n")
+                    self.writeBuffer('scanf("%lf", &{}'.format(id["lexema"]) + ");\n")
             else:
                 print("Erro: Variável não declarada")
         elif indiceRule == 12: #feito
@@ -86,7 +89,14 @@ class SemanticAnalyzer:
             self.stack.pop()
             ARG = self.stack.pop()
             self.stack.pop()
-            self.writeFile("printf({})\n".format(ARG["lexema"]))
+            if ARG["tipo"] == 'literal':
+                self.writeBuffer('printf("%s", {});\n'.format(ARG["lexema"]))
+            elif ARG["tipo"] == 'int':
+                self.writeBuffer('printf("%d", {});\n'.format(ARG["lexema"]))
+            elif ARG["tipo"] == 'double':
+                self.writeBuffer('printf("%lf", {});\n'.format(ARG["lexema"]))
+            else:
+                self.writeBuffer('printf({});\n'.format(ARG["lexema"]))
             self.stack.append({'lexema': "ES", 'token': "", 'tipo': ""})
 
         elif indiceRule == 13: #feito
@@ -131,10 +141,10 @@ class SemanticAnalyzer:
 
             if id["tipo"] != "" and LD["tipo"] != "":
                 if id["tipo"] == LD["tipo"]:
-                    self.writeFile("{} {} {}\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
+                    self.writeBuffer("{} {} {};\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
                     self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
                 elif id["tipo"] == 'double' and LD["tipo"] == 'int':
-                    self.writeFile("{} {} {}\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
+                    self.writeBuffer("{} {} {};\n".format(id["lexema"], rcb["tipo"], LD["lexema"]))
                     self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
                 else:
                     self.stack.append({'lexema': "CMD", 'token': "Num", 'tipo': id['tipo']})
@@ -159,7 +169,7 @@ class SemanticAnalyzer:
 
             if OPRD1["tipo"] != "literal" and OPRD2["tipo"] != "literal" and OPRD1["tipo"] == OPRD2["tipo"]:
                 tx = self.tx
-                self.writeFile("T{} = {} {} {}\n".format(tx, OPRD1["lexema"], opm["tipo"], OPRD2["lexema"])),
+                self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opm["tipo"], OPRD2["lexema"])),
                 self.stack.append({'lexema': "T{}".format(tx), 'token': "", 'tipo': OPRD1["tipo"]})
                 self.tx += 1
             elif  OPRD1["tipo"] == "" or OPRD2["tipo"] == "":
@@ -201,7 +211,7 @@ class SemanticAnalyzer:
             # print("COND -> CABECALHO CORPO")
             self.stack.pop()
             self.stack.pop()
-            self.writeFile("}\n")
+            self.writeBuffer("}\n")
             self.stack.append({'lexema': "COND", 'token': "", 'tipo': ""})
 
         elif indiceRule == 24: #feito
@@ -214,7 +224,7 @@ class SemanticAnalyzer:
             self.stack.pop()
             self.stack.pop()
             aux = "if ( {} ) ".format(EXP_R["lexema"]) + "{\n"
-            self.writeFile(aux)
+            self.writeBuffer(aux)
             self.stack.append({'lexema': "CABECALHO", 'token': "", 'tipo': ""})
 
         elif indiceRule == 25: #feito
@@ -233,7 +243,7 @@ class SemanticAnalyzer:
             if True:
                 tx = self.tx
                 self.stack.append({'lexema': "T{}".format(tx), 'token': "boolean", 'tipo': "boolean"})
-                self.writeFile("T{} = {} {} {}\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
+                self.writeBuffer("T{} = {} {} {};\n".format(tx, OPRD1["lexema"], opr["tipo"], OPRD2["lexema"]))
                 self.tx += 1
 
     def resetFile(self):
@@ -242,6 +252,10 @@ class SemanticAnalyzer:
         except:
             pass
 
-    def writeFile(self, line):
+    def writeBuffer(self, line):
+        self.Buffer += line
+
+
+    def writeFile(self):
         with open("codigo_objeto.c", 'a') as f:
-            f.write(line)
+            f.write(self.Buffer)
